@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mr Almanac · Picks Deportivos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Picks deportivos basados en datos, no en corazonadas." />
+  <style>
+    :root {
+      --bg-main: #05060a;
+      --bg-alt: #0b0d15;
+      --bg-card: #101320;
+      --accent: #22c55e; /* verde neón */
+      --accent-soft: rgba(34, 197, 94, 0.18);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2933;
+      --danger: #f97373;
+      --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.7);
+      --radius-xl: 18px;
+      --radius-2xl: 24px;
+      --max-width: 1120px;
+      --nav-height: 72px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Layout base */
+    .page {
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(to bottom, rgba(3, 7, 18, 0.96), rgba(3, 7, 18, 0.85));
+      border-bottom: 1px solid rgba(31, 41, 55, 0.8);
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 10%, #facc15 0, #f97316 45%, #b91c1c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.4);
+      font-weight: 800;
+      font-size: 16px;
+      color: #020617;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      padding: 6px 0;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+      border-color: rgba(148, 163, 184, 0.8);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      background: linear-gradient(135deg, var(--accent), #4ade80);
+      color: #022c22;
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.35);
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav-cta span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #16a34a;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.4);
+    }
+
+    .nav-cta:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 40px 0 32px;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(107, 114, 128, 0.6);
+      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.18) 0, rgba(15, 23, 42, 0.9) 55%);
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-bottom: 16px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.22);
+    }
+
+    .badge span.label {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(34px, 3.4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span.accent {
+      background: linear-gradient(120deg, #4ade80, #22c55e, #a3e635);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 24px;
+    }
+
+    .hero-subtitle strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .btn-primary {
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      background: linear-gradient(135deg, var(--accent), #4ade80);
+      color: #022c22;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 16px 35px rgba(34, 197, 94, 0.4);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-main);
+      border: 1px solid rgba(55, 65, 81, 0.8);
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      border-color: rgba(148, 163, 184, 0.9);
+    }
+
+    .hero-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hero-meta strong {
+      color: #e5e7eb;
+    }
+
+    /* Hero “card” derecha */
+    .hero-card {
+      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.18) 0, #020617 52%);
+      border-radius: var(--radius-2xl);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 18px 18px 20px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .hero-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .hero-card-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-muted);
+    }
+
+    .hero-card-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .metric {
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(30, 64, 175, 0.45);
+    }
+
+    .metric label {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .metric strong {
+      font-size: 15px;
+    }
+
+    .metric strong.positive {
+      color: var(--accent);
+    }
+
+    .metric strong.neutral {
+      color: #e5e7eb;
+    }
+
+    .metric span.helper {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .hero-card-list {
+      margin-top: 6px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 10px 10px 8px;
+      font-size: 11px;
+    }
+
+    .hero-card-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .hero-card-list-header span {
+      font-size: 11px;
+    }
+
+    .hero-card-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hero-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: baseline;
+    }
+
+    .hero-row-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .hero-row-main span.league {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .hero-row-main span.pick {
+      font-size: 12px;
+    }
+
+    .hero-row-meta {
+      text-align: right;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-row-meta span.result-win {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero-row-meta span.result-loss {
+      color: var(--danger);
+      font-weight: 500;
+    }
+
+    .hero-card-shadow-tag {
+      position: absolute;
+      right: -50px;
+      bottom: -32px;
+      font-size: 60px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(15, 23, 42, 0.65);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Stats strip */
+    .stats-strip {
+      padding: 8px 0 24px;
+    }
+
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    /* Secciones genéricas */
+    section.section {
+      padding: 40px 0 32px;
+    }
+
+    .section-header {
+      margin-bottom: 18px;
+    }
+
+    .section-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 520px;
+    }
+
+    /* Cómo funciona */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .step-card {
+      background: var(--bg-alt);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      padding: 16px 16px 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .step-number {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .step-text {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .section-note {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .section-note strong {
+      color: #e5e7eb;
+    }
+
+    /* Histórico */
+    .history-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .card {
+      background: var(--bg-alt);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      padding: 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-caption {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 11px;
+    }
+
+    thead {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    th, td {
+      padding: 6px 6px;
+      text-align: left;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.7);
+      white-space: nowrap;
+    }
+
+    th {
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tag-result {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .tag-win {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--accent);
+    }
+
+    .tag-loss {
+      background: rgba(248, 113, 113, 0.12);
+      color: var(--danger);
+    }
+
+    .badge-neutral {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text-muted);
+    }
+
+    .history-cta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .link-inline {
+      font-size: 11px;
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-color: rgba(34, 197, 94, 0.6);
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .history-side {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .history-side ul {
+      margin-top: 8px;
+      padding-left: 18px;
+    }
+
+    .history-side li {
+      margin-bottom: 4px;
+    }
+
+    /* Pricing */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .price-card {
+      background: var(--bg-alt);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      padding: 16px 16px 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .price-card.recommended {
+      border-color: rgba(34, 197, 94, 0.7);
+      box-shadow: 0 26px 60px rgba(34, 197, 94, 0.28);
+      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.12) 0, #020617 55%);
+    }
+
+    .price-badge {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .price-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .price-description {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .price-value {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .price-period {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .price-features {
+      list-style: none;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .price-features li {
+      margin-bottom: 4px;
+    }
+
+    .price-action {
+      margin-top: auto;
+    }
+
+    .btn-outline {
+      padding: 9px 14px;
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.85);
+      background: rgba(15, 23, 42, 0.92);
+      color: #e5e7eb;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(148, 163, 184, 1);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .btn-outline-primary {
+      border-color: rgba(34, 197, 94, 0.8);
+      color: var(--accent);
+    }
+
+    .btn-outline-primary:hover {
+      background: rgba(21, 128, 61, 0.15);
+    }
+
+    .pricing-footnote {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* FAQ */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 18px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(31, 41, 55, 0.85);
+      padding: 8px 0;
+    }
+
+    .faq-question {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .faq-answer {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .risk-box {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(248, 113, 113, 0.6);
+      padding: 12px 14px;
+      font-size: 11px;
+      color: #fecaca;
+      box-shadow: 0 18px 40px rgba(127, 29, 29, 0.6);
+    }
+
+    .risk-box strong {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 10px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 16px 0 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      text-decoration: underline;
+      text-decoration-color: rgba(148, 163, 184, 0.6);
+      text-underline-offset: 3px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-card {
+        order: -1;
+      }
+      .stats-inner {
+        border-radius: 18px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .history-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .pricing-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .faq-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+      .hero {
+        padding-top: 24px;
+      }
+      .stats-strip {
+        padding-top: 4px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .stats-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-title {
+        font-size: 30px;
+      }
+      section.section {
+        padding-top: 32px;
+        padding-bottom: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="container nav-inner">
+        <a href="#top" class="brand">
+          <div class="brand-icon">M</div>
+          <div class="brand-text">
+            <span class="brand-name">Mr Almanac</span>
+            <span class="brand-tagline">Picks con edge medido</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#historial">Historial</a>
+          <a href="#planes">Planes</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a href="#planes" class="nav-cta">
+          <span class="dot"></span>
+          Empezar ahora
+        </a>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-left">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              <span class="label">Desde 2025 · Datos, no corazonadas</span>
+            </div>
+
+            <h1 class="hero-title">
+              Picks deportivos con <span class="accent">ventaja estadística</span>, no opiniones.
+            </h1>
+
+            <p class="hero-subtitle">
+              Modelos de datos que se actualizan a diario para <strong>NBA y NHL</strong>.  
+              Sin humo, sin promesas mágicas: probabilidad, stake recomendado y riesgo claro.
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="#historial">
+                <button class="btn-primary">Ver historial de resultados</button>
+              </a>
+              <a href="#planes">
+                <button class="btn-ghost">Ver planes y acceso</button>
+              </a>
+            </div>
+
+            <p class="hero-meta">
+              Últimos 12 meses: <strong id="hero-bank-text">+X.XX unidades</strong> · Tasa de acierto <strong id="hero-winrate-text">XX %</strong>.  
+              Cifras auditables en el histórico completo.
+            </p>
+          </div>
+
+          <aside class="hero-card" aria-label="Resumen de rendimiento">
+            <div class="hero-card-header">
+              <div>
+                <div class="hero-card-title">Panel rápido</div>
+                <div class="hero-card-sub">Resumen de bancas y picks</div>
+              </div>
+              <span class="pill">Actualizado diario</span>
+            </div>
+
+            <div class="hero-card-metrics">
+              <div class="metric">
+                <label>Banca 12M</label>
+                <strong id="hero-bank" class="positive">+X.XXX u</strong>
+                <span class="helper">Crecimiento acumulado</span>
+              </div>
+              <div class="metric">
+                <label>Acierto</label>
+                <strong id="hero-winrate" class="positive">XX %</strong>
+                <span class="helper">Últimos 1.000 picks</span>
+              </div>
+              <div class="metric">
+                <label>Stake medio</label>
+                <strong id="hero-stake" class="neutral">1–2 u</strong>
+                <span class="helper">Gestión de riesgo</span>
+              </div>
+            </div>
+
+            <div class="hero-card-list">
+              <div class="hero-card-list-header">
+                <span>Últimos picks</span>
+                <span>Cuota · Resultado</span>
+              </div>
+              <div class="hero-card-rows" id="hero-last-picks">
+                <!-- Se llena dinámicamente -->
+              </div>
+            </div>
+
+            <div class="hero-card-shadow-tag">ALMANAC</div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- STATS STRIP -->
+      <section class="stats-strip">
+        <div class="container">
+          <div class="stats-inner">
+            <div class="stat-item">
+              <div class="stat-label">Picks totales</div>
+              <div class="stat-value" id="stat-picks-total">+X.XXX</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Unidades acumuladas</div>
+              <div class="stat-value" id="stat-units">+X.XXX u</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Deportes</div>
+              <div class="stat-value">NBA · NHL</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Picks por día</div>
+              <div class="stat-value" id="stat-picks-day">3–6</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CÓMO FUNCIONA -->
+      <section id="como-funciona" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Proceso</div>
+            <h2 class="section-title">Cómo funcionan los picks</h2>
+            <p class="section-subtitle">
+              Nada de corazonadas. Todo sale de un pipeline de datos, modelos estadísticos y gestión de riesgo simple.
+            </p>
+          </div>
+
+          <div class="steps-grid">
+            <article class="step-card">
+              <div class="step-number">1</div>
+              <h3 class="step-title">Datos y contexto</h3>
+              <p class="step-text">
+                Recolección automática de estadísticas oficiales, líneas de mercado y contexto reciente por liga, equipo y jugador.
+              </p>
+            </article>
+
+            <article class="step-card">
+              <div class="step-number">2</div>
+              <h3 class="step-title">Modelo y edge</h3>
+              <p class="step-text">
+                El modelo estima probabilidades reales, calcula el edge sobre la cuota y define un rango de stake recomendado por pick.
+              </p>
+            </article>
+
+            <article class="step-card">
+              <div class="step-number">3</div>
+              <h3 class="step-title">Tú ejecutas</h3>
+              <p class="step-text">
+                Recibes picks claros: liga, mercado, cuota, stake sugerido y ventana de tiempo. Sin sobrecarga de información ni señales ambiguas.
+              </p>
+            </article>
+          </div>
+
+          <p class="section-note">
+            <strong>No vendo promesas.</strong> Si el modelo deja de tener edge, se pausa y se ajusta. Más vale parar que reventar una banca.
+          </p>
+        </div>
+      </section>
+
+      <!-- HISTORIAL -->
+      <section id="historial" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Transparencia</div>
+            <h2 class="section-title">Histórico público</h2>
+            <p class="section-subtitle">
+              Muestras recientes visibles en la landing. Histórico completo accesible en CSV o en una página aparte dentro del mismo sitio.
+            </p>
+          </div>
+
+          <div class="history-layout">
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Últimos picks publicados</span>
+                <span class="card-caption">Se cargan desde actual.csv</span>
+              </div>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Deporte</th>
+                    <th>Pick</th>
+                    <th>Cuota</th>
+                    <th>Stake (u)</th>
+                    <th>Resultado</th>
+                    <th>Unid.</th>
+                  </tr>
+                </thead>
+                <tbody id="history-body">
+                  <!-- Se llena dinámicamente desde actual.csv -->
+                </tbody>
+              </table>
+
+              <div class="history-cta">
+                <span>Todos los picks se registran con fecha, cuota, stake y resultado.</span>
+                <span class="link-inline">Ver histórico completo (CSV / dashboard)</span>
+              </div>
+            </div>
+
+            <div class="history-side">
+              <p>
+                El histórico completo vive en un repositorio público verificable o dentro del mismo sitio.  
+                Sin reacomodar picks, sin borrar rachas malas.
+              </p>
+              <ul>
+                <li>Registro continuo por fecha y deporte.</li>
+                <li>Gráficas de evolución de banca por meses.</li>
+                <li>Resumen por deporte y tipo de mercado.</li>
+              </ul>
+              <p>
+                La idea es simple: si los números no sostienen el servicio, no tiene sentido mantenerlo vivo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PLANES -->
+      <section id="planes" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Acceso</div>
+            <h2 class="section-title">Planes sin letras chiquitas</h2>
+            <p class="section-subtitle">
+              Un plan semanal para probar, uno mensual como estándar, y uno de temporada para quien quiera ir en serio.
+              Precios de ejemplo, ajusta según tu estrategia.
+            </p>
+          </div>
+
+          <div class="pricing-grid">
+            <article class="price-card">
+              <div>
+                <h3 class="price-name">Semanal</h3>
+                <p class="price-description">
+                  Para probar el servicio sin compromiso largo.
+                </p>
+                <div class="price-value">$X</div>
+                <div class="price-period">por 7 días de acceso</div>
+                <ul class="price-features">
+                  <li>Acceso a todos los picks.</li>
+                  <li>Resumen simple de resultados al cierre.</li>
+                  <li>Entrega vía canal privado (Telegram / email).</li>
+                </ul>
+              </div>
+              <div class="price-action">
+                <a href="#contacto">
+                  <button class="btn-outline">Empezar una semana</button>
+                </a>
+              </div>
+            </article>
+
+            <article class="price-card recommended">
+              <div class="price-badge">Recomendado</div>
+              <div>
+                <h3 class="price-name">Mensual</h3>
+                <p class="price-description">
+                  La forma más lógica de medir resultados y edge.
+                </p>
+                <div class="price-value">$Y</div>
+                <div class="price-period">por 30 días de acceso</div>
+                <ul class="price-features">
+                  <li>Todo lo del plan semanal.</li>
+                  <li>Dashboard con histórico del mes.</li>
+                  <li>Soporte por correo / Telegram.</li>
+                </ul>
+              </div>
+              <div class="price-action">
+                <a href="#contacto">
+                  <button class="btn-outline btn-outline-primary">Elegir plan mensual</button>
+                </a>
+              </div>
+            </article>
+
+            <article class="price-card">
+              <div>
+                <h3 class="price-name">Temporada / VIP</h3>
+                <p class="price-description">
+                  Para bancas que quieren estabilidad y seguimiento.
+                </p>
+                <div class="price-value">$Z</div>
+                <div class="price-period">por temporada completa</div>
+                <ul class="price-features">
+                  <li>Acceso completo a todos los picks.</li>
+                  <li>Reportes detallados por mes.</li>
+                  <li>Prioridad en dudas y ajustes de staking.</li>
+                </ul>
+              </div>
+              <div class="price-action">
+                <a href="#contacto">
+                  <button class="btn-outline">Hablar sobre temporada</button>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <p class="pricing-footnote">
+            Si en un periodo dado el modelo deja de mostrar edge medible, el servicio se pausa y se revisa.
+            Mejor eso que forzar picks por obligación de calendario.
+          </p>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Dudas</div>
+            <h2 class="section-title">Preguntas rápidas</h2>
+            <p class="section-subtitle">
+              Respuestas cortas. Si algo te preocupa más que esto, probablemente no deberías apostar ese dinero.
+            </p>
+          </div>
+
+          <div class="faq-grid">
+            <div>
+              <div class="faq-item">
+                <div class="faq-question">¿Garantizas ganancias?</div>
+                <div class="faq-answer">
+                  No. Trabajo con probabilidad, edge y gestión de riesgo.  
+                  Hay rachas malas, drawdowns y meses planos. Quien prometa lo contrario está vendiendo humo.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">¿En qué casas están basadas las líneas?</div>
+                <div class="faq-answer">
+                  En casas y exchanges líquidos (ejemplo: Pinnacle, Bet365, etc.).  
+                  Tú puedes ejecutar donde quieras, pero el edge se calcula contra estas referencias.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">¿A qué hora mandas los picks?</div>
+                <div class="faq-answer">
+                  Normalmente XX:XX–XX:XX (hora CDMX), con tiempo suficiente para que el mercado tenga liquidez
+                  y sin ir pegado al cierre de la línea.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">¿Cómo manejo el stake y la banca?</div>
+                <div class="faq-answer">
+                  El servicio sugiere stake en unidades. Tú defines el valor de 1 unidad según tu banca y tolerancia
+                  a drawdowns. Recomendable no pasar de 1–2 % de la banca por unidad.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">¿Puedo cancelar el plan?</div>
+                <div class="faq-answer">
+                  El acceso es por periodo (semana, mes o temporada). Si no quieres seguir, simplemente no renuevas.
+                  Nada de renovaciones ocultas ni cargos sorpresa.
+                </div>
+              </div>
+            </div>
+
+            <aside class="risk-box">
+              <strong>Advertencia de riesgo</strong>
+              Apostar implica riesgo de pérdida parcial o total de capital.  
+              No inviertas dinero que no puedas permitirte perder.  
+              Este servicio no sustituye asesoría financiera profesional ni garantiza rendimientos.
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACTO -->
+      <section id="contacto" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Contacto</div>
+            <h2 class="section-title">Acceso y dudas</h2>
+            <p class="section-subtitle">
+              Si quieres entrar, probar una semana o preguntar algo puntual, escribe por aquí.
+              Ajusta estos datos al canal real que uses.
+            </p>
+          </div>
+
+          <div class="card">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">
+              Canales disponibles:
+            </p>
+            <ul style="list-style: none; font-size: 13px; color: var(--text-muted); margin-left: 0;">
+              <li><strong>Instagram:</strong> <a href="https://www.instagram.com/almanaque_picks/" class="link-inline">@almanaque_picks</a></li>
+              <li><strong>Telegram:</strong> <span class="link-inline">@almanaque_picks</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-inner">
+        <span>© <span id="year"></span> Mr Almanac. Todos los derechos reservados.</span>
+        <div class="footer-links">
+          <a href="#historial">Historial</a>
+          <a href="#planes">Planes</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const HISTORY_CSV_URL = "actual.csv"; // pon actual.csv junto a index.html
+    let BASE_STAKE = 1;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+      loadAllFromCsv();
+    });
+
+    async function loadAllFromCsv() {
+      try {
+        const res = await fetch(HISTORY_CSV_URL);
+        if (!res.ok) {
+          console.error("No se pudo cargar actual.csv:", res.status);
+          return;
+        }
+
+        const text = await res.text();
+        const rows = parseCsv(text);
+        if (!rows.length) return;
+
+        BASE_STAKE = getBaseStake(rows);
+
+        // parse fechas y ordenar desc
+        rows.forEach(r => {
+          r._dateObj = r.date ? new Date(r.date) : new Date(0);
+        });
+        rows.sort((a, b) => b._dateObj - a._dateObj);
+
+        // actualizar métricas de hero y franja
+        updateStatsFromRows(rows);
+        buildHeroLastPicks(rows);
+
+        // tabla historial (últimos 10)
+        const latest = rows.slice(0, 10);
+        const tbody = document.getElementById("history-body");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        latest.forEach(row => {
+          const tr = buildHistoryRow(row);
+          if (tr) tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Error cargando historial:", err);
+      }
+    }
+
+    function parseCsv(text) {
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length <= 1) return [];
+
+      const headers = lines[0].split(",").map(h => h.trim());
+      const dataLines = lines.slice(1).filter(Boolean);
+
+      return dataLines.map(line => {
+        const values = line.split(",");
+        const obj = {};
+        headers.forEach((h, idx) => {
+          obj[h] = values[idx] !== undefined ? values[idx].trim() : "";
+        });
+        return obj;
+      });
+    }
+
+    function getBaseStake(rows) {
+      for (const r of rows) {
+        const s = Number(r.stake);
+        if (s && !Number.isNaN(s) && s > 0) return s;
+      }
+      return 1;
+    }
+
+    function updateStatsFromRows(rows) {
+      const n = rows.length;
+      let totalProfit = 0;
+      let wins = 0, losses = 0, pushes = 0;
+      const days = new Set();
+
+      for (const r of rows) {
+        const p = Number(r.profit);
+        if (Number.isFinite(p)) {
+          totalProfit += p;
+          if (p > 0) wins++;
+          else if (p < 0) losses++;
+          else pushes++;
+        }
+        if (r.date) {
+          days.add(r.date.slice(0, 10));
+        }
+      }
+
+      const unitsAccum = BASE_STAKE ? totalProfit / BASE_STAKE : 0;
+      const winrate = n ? (wins / n) * 100 : 0;
+      const avgStakeUnits = (() => {
+        let sumStake = 0, cnt = 0;
+        for (const r of rows) {
+          const s = Number(r.stake);
+          if (Number.isFinite(s) && BASE_STAKE) {
+            sumStake += s / BASE_STAKE;
+            cnt++;
+          }
+        }
+        return cnt ? sumStake / cnt : 0;
+      })();
+      const daysActive = Math.max(1, days.size || 1);
+      const picksPerDay = n / daysActive;
+
+      const unitsStr = formatSignedNumber(unitsAccum);
+      setText("hero-bank", unitsStr + " u");
+      setText("hero-bank-text", unitsStr + " unidades");
+      setText("stat-units", unitsStr + " u");
+
+      const winStr = winrate.toFixed(1) + " %";
+      setText("hero-winrate", winStr);
+      setText("hero-winrate-text", winStr);
+
+      const stakeStr = avgStakeUnits ? avgStakeUnits.toFixed(2) + " u" : "";
+      setText("hero-stake", stakeStr);
+
+      setText("stat-picks-total", n.toString());
+      setText("stat-picks-day", picksPerDay.toFixed(1));
+    }
+
+    function buildHeroLastPicks(rows) {
+      const container = document.getElementById("hero-last-picks");
+      if (!container) return;
+      container.innerHTML = "";
+
+      const latest = rows.slice(0, 3);
+
+      latest.forEach(row => {
+        const predictedCover = Number(row.predicted_cover);
+        const isAwayPick = predictedCover === 1;
+
+        const homeTeam = row.home_team_name || "";
+        const awayTeam = row.away_team_name || "";
+        const teamName = isAwayPick ? awayTeam : homeTeam;
+        if (!teamName) return;
+
+        const spreadRaw = Number(isAwayPick ? row.spread_away : row.spread_home);
+        const spreadStr = Number.isFinite(spreadRaw) && spreadRaw !== 0
+          ? (spreadRaw > 0 ? "+" + spreadRaw : String(spreadRaw))
+          : "";
+
+        const pickLabel = spreadStr ? `${teamName} ${spreadStr}` : teamName;
+
+        const oddRaw = Number(isAwayPick ? row.odd_away_decimal : row.odd_home_decimal);
+        const oddStr = Number.isFinite(oddRaw) && oddRaw > 0 ? oddRaw.toFixed(2) : "";
+
+        const profitMoney = Number(row.profit);
+        const pnlUnits = (Number.isFinite(profitMoney) && BASE_STAKE)
+          ? profitMoney / BASE_STAKE
+          : 0;
+        const pnlStr = formatSignedNumber(pnlUnits);
+
+        let resultClass = "";
+        let prefix = "";
+        if (profitMoney > 0) {
+          resultClass = "result-win";
+          prefix = "Win ";
+        } else if (profitMoney < 0) {
+          resultClass = "result-loss";
+          prefix = "Loss ";
+        } else {
+          prefix = "Push ";
+        }
+
+        const rowEl = document.createElement("div");
+        rowEl.className = "hero-row";
+
+        const mainDiv = document.createElement("div");
+        mainDiv.className = "hero-row-main";
+
+        const leagueSpan = document.createElement("span");
+        leagueSpan.className = "league";
+        leagueSpan.textContent = "MLB · Spread";
+
+        const pickSpan = document.createElement("span");
+        pickSpan.className = "pick";
+        pickSpan.textContent = pickLabel;
+
+        mainDiv.appendChild(leagueSpan);
+        mainDiv.appendChild(pickSpan);
+
+        const metaDiv = document.createElement("div");
+        metaDiv.className = "hero-row-meta";
+
+        const oddSpan = document.createElement("span");
+        oddSpan.textContent = oddStr;
+
+        const br = document.createElement("br");
+
+        const resultSpan = document.createElement("span");
+        if (resultClass) resultSpan.className = resultClass;
+        resultSpan.textContent = prefix + pnlStr + " u";
+
+        metaDiv.appendChild(oddSpan);
+        metaDiv.appendChild(br);
+        metaDiv.appendChild(resultSpan);
+
+        rowEl.appendChild(mainDiv);
+        rowEl.appendChild(metaDiv);
+
+        container.appendChild(rowEl);
+      });
+    }
+
+    function buildHistoryRow(row) {
+      const date = row.date || "";
+      const deporte = "MLB"; // todo el CSV es MLB; ajusta si mezclas ligas
+
+      const predictedCover = Number(row.predicted_cover);
+      const isAwayPick = predictedCover === 1;
+
+      const homeTeam = row.home_team_name || "";
+      const awayTeam = row.away_team_name || "";
+      const teamName = isAwayPick ? awayTeam : homeTeam;
+      if (!teamName) return null;
+
+      const spreadRaw = Number(isAwayPick ? row.spread_away : row.spread_home);
+      const spreadStr = Number.isFinite(spreadRaw) && spreadRaw !== 0
+        ? (spreadRaw > 0 ? "+" + spreadRaw : String(spreadRaw))
+        : "";
+
+      const pickLabel = spreadStr ? `${teamName} ${spreadStr}` : teamName;
+
+      const oddRaw = Number(isAwayPick ? row.odd_away_decimal : row.odd_home_decimal);
+      const oddStr = Number.isFinite(oddRaw) && oddRaw > 0 ? oddRaw.toFixed(2) : "";
+
+      const stakeMoney = Number(row.stake);
+      const profitMoney = Number(row.profit);
+
+      const stakeUnits = (Number.isFinite(stakeMoney) && BASE_STAKE)
+        ? stakeMoney / BASE_STAKE
+        : 0;
+
+      const pnlUnits = (Number.isFinite(profitMoney) && BASE_STAKE)
+        ? profitMoney / BASE_STAKE
+        : 0;
+
+      const stakeStr = stakeUnits ? stakeUnits.toFixed(2) : "";
+      const pnlPerUnit = stakeUnits ? pnlUnits / stakeUnits : pnlUnits;
+      const pnlUnitsStr = formatSignedNumber(pnlPerUnit);
+
+      let resultLabel = "Push";
+      let resultClass = "badge-neutral";
+      if (profitMoney > 0) {
+        resultLabel = "Win";
+        resultClass = "tag-win";
+      } else if (profitMoney < 0) {
+        resultLabel = "Loss";
+        resultClass = "tag-loss";
+      }
+
+      const tr = document.createElement("tr");
+
+      function td(text) {
+        const cell = document.createElement("td");
+        cell.textContent = text;
+        return cell;
+      }
+
+      tr.appendChild(td(date));
+      tr.appendChild(td(deporte));
+      tr.appendChild(td(pickLabel));
+      tr.appendChild(td(oddStr));
+      tr.appendChild(td(stakeStr));
+
+      const resultTd = document.createElement("td");
+      const span = document.createElement("span");
+      span.className = "tag-result " + resultClass;
+      span.textContent = resultLabel;
+      resultTd.appendChild(span);
+      tr.appendChild(resultTd);
+
+      tr.appendChild(td(pnlUnitsStr));
+
+      return tr;
+    }
+
+    function formatSignedNumber(value) {
+      if (!Number.isFinite(value)) return "";
+      const fixed = value.toFixed(2);
+      if (value > 0) return "+" + fixed;
+      return fixed;
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+  </script>
+</body>
+</html>
