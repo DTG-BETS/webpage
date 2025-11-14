@@ -38,6 +38,7 @@
       background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     a {
@@ -282,7 +283,7 @@
       color: #e5e7eb;
     }
 
-    /* Hero “card” derecha */
+    /* Hero card */
     .hero-card {
       background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.18) 0, #020617 52%);
       border-radius: var(--radius-2xl);
@@ -377,10 +378,6 @@
       align-items: center;
       margin-bottom: 6px;
       color: var(--text-muted);
-    }
-
-    .hero-card-list-header span {
-      font-size: 11px;
     }
 
     .hero-card-rows {
@@ -587,11 +584,17 @@
       color: var(--text-muted);
     }
 
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 8px;
       font-size: 11px;
+      min-width: 640px;
     }
 
     thead {
@@ -892,6 +895,18 @@
       .stats-strip {
         padding-top: 4px;
       }
+      .hero-card-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .hero-title {
+        font-size: 28px;
+      }
+      .hero-subtitle {
+        font-size: 14px;
+      }
+      table {
+        font-size: 10px;
+      }
     }
 
     @media (max-width: 520px) {
@@ -899,11 +914,14 @@
         grid-template-columns: minmax(0, 1fr);
       }
       .hero-title {
-        font-size: 30px;
+        font-size: 26px;
       }
       section.section {
         padding-top: 32px;
         padding-bottom: 26px;
+      }
+      .hero-card-metrics {
+        grid-template-columns: minmax(0, 1fr);
       }
     }
   </style>
@@ -940,7 +958,7 @@
           <div class="hero-left">
             <div class="badge">
               <span class="badge-dot"></span>
-              <span class="label">Desde 2025 · Datos, no corazonadas</span>
+              <span class="label">Desde 2023 · Datos, no corazonadas</span>
             </div>
 
             <h1 class="hero-title">
@@ -948,7 +966,7 @@
             </h1>
 
             <p class="hero-subtitle">
-              Modelos de datos que se actualizan a diario para <strong>NBA y NHL</strong>.  
+              Modelos de datos que se actualizan a diario para <strong>MLB, NBA y NHL</strong>.  
               Sin humo, sin promesas mágicas: probabilidad, stake recomendado y riesgo claro.
             </p>
 
@@ -1023,7 +1041,7 @@
             </div>
             <div class="stat-item">
               <div class="stat-label">Deportes</div>
-              <div class="stat-value">NBA · NHL</div>
+              <div class="stat-value">MLB · NBA · NHL</div>
             </div>
             <div class="stat-item">
               <div class="stat-label">Picks por día</div>
@@ -1094,22 +1112,24 @@
                 <span class="card-caption">Se cargan desde actual.csv</span>
               </div>
 
-              <table>
-                <thead>
-                  <tr>
-                    <th>Fecha</th>
-                    <th>Deporte</th>
-                    <th>Pick</th>
-                    <th>Cuota</th>
-                    <th>Stake (u)</th>
-                    <th>Resultado</th>
-                    <th>Unid.</th>
-                  </tr>
-                </thead>
-                <tbody id="history-body">
-                  <!-- Se llena dinámicamente desde actual.csv -->
-                </tbody>
-              </table>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Deporte</th>
+                      <th>Pick</th>
+                      <th>Cuota</th>
+                      <th>Stake (u)</th>
+                      <th>Resultado</th>
+                      <th>Unid.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-body">
+                    <!-- Se llena dinámicamente desde actual.csv -->
+                  </tbody>
+                </table>
+              </div>
 
               <div class="history-cta">
                 <span>Todos los picks se registran con fecha, cuota, stake y resultado.</span>
@@ -1252,7 +1272,7 @@
               <div class="faq-item">
                 <div class="faq-question">¿A qué hora mandas los picks?</div>
                 <div class="faq-answer">
-                  Normalmente XX:XX–XX:XX (hora CDMX), con tiempo suficiente para que el mercado tenga liquidez
+                  Normalmente media hora antes de cada partido, con tiempo suficiente para que el mercado tenga liquidez
                   y sin ir pegado al cierre de la línea.
                 </div>
               </div>
@@ -1301,7 +1321,7 @@
               Canales disponibles:
             </p>
             <ul style="list-style: none; font-size: 13px; color: var(--text-muted); margin-left: 0;">
-              <li><strong>Instagram:</strong> <a href="https://www.instagram.com/almanaque_picks/" class="link-inline">@almanaque_picks</a></li>
+              <li><strong>Instagram:</strong> <a href="https://www.instagram.com/almanaque_picks/" class="link-inline">almanaque_picks</a></li>
               <li><strong>Telegram:</strong> <span class="link-inline">@almanaque_picks</span></li>
             </ul>
           </div>
@@ -1532,7 +1552,7 @@
 
     function buildHistoryRow(row) {
       const date = row.date || "";
-      const deporte = "MLB"; // todo el CSV es MLB; ajusta si mezclas ligas
+      const deporte = "MLB";
 
       const predictedCover = Number(row.predicted_cover);
       const isAwayPick = predictedCover === 1;
